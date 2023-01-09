@@ -17,7 +17,7 @@ mason_lspconfig.setup({
         "jsonls", -- json
         "marksman", -- markdown
         "pylsp", -- python
-        "rust_analyzer" -- rust
+        -- "rust_analyzer" -- rust
     },
     automatic_installation = true,
-}) 
+})

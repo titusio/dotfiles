@@ -9,6 +9,8 @@ local ensure_packer = function()
   return false
 end
 
+local packer_bootstrap = ensure_packer()
+
 -- autocommand which installs plugins whenever this file is saved
 vim.cmd([[
   augroup packer_user_config
@@ -17,6 +19,7 @@ vim.cmd([[
   augroup end
 ]])
 
+-- import packer safely
 local status, packer = pcall(require, "packer")
 if not status then
     return
@@ -32,7 +35,7 @@ return packer.startup(function(use)
     use("christoomey/vim-tmux-navigator") -- split window navigation 
 
     use("szw/vim-maximizer") -- maximizes and restores current window
- 
+
     -- 'essential plugins'
     use("tpope/vim-surround") -- ys + motion --> surrounds word with something like brackets or quotes
     -- use("vim-scripts/ReplaceWithRegister")
@@ -48,7 +51,11 @@ return packer.startup(function(use)
 
     -- statusline
     use("nvim-lualine/lualine.nvim")
-    
+
+    -- better tab functionality
+    use("akinsho/bufferline.nvim")
+    use("moll/vim-bbye")
+
     -- fuzzy finding w/ telescope
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
     use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
@@ -69,25 +76,41 @@ return packer.startup(function(use)
 
    -- configuring lsp servers
     use("neovim/nvim-lspconfig") -- easily configure language servers
-  use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
-  use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
-  use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
-  use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
+    use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
+    use({ "glepnir/lspsaga.nvim", branch = "main" }) -- enhanced lsp uis
+    use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
+    use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
 
     -- treesitter configuration
-  use({
-    "nvim-treesitter/nvim-treesitter",
-    run = function()
-      require("nvim-treesitter.install").update({ with_sync = true })
-    end,
-  })
+    use({
+        "nvim-treesitter/nvim-treesitter",
+        run = function()
+            require("nvim-treesitter.install").update({ with_sync = true })
+        end,
+    })
 
- -- auto closing
-  use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
-  use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+    -- auto closing
+    use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
+    use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
 
     -- git integration
     use ("lewis6991/gitsigns.nvim")
+
+    -- save sessions
+    -- use {"rmagatti/auto-session",
+    --     config = function()
+    --         require("auto-session").setup {
+    --             log_level = "error",
+    --             auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/", "~/nvim"},
+    --         }
+    --     end
+    -- }
+
+    -- discord rich presence
+    use ("andweeb/presence.nvim")
+
+    -- coloring hex strings
+    use 'norcalli/nvim-colorizer.lua'
 
     if packer_bootstrap then
         require("packer").sync()

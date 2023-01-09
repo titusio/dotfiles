@@ -36,12 +36,12 @@ end
 local capabilities = cmp_nvim_lsp.default_capabilities()
 
 lspconfig["omnisharp"].setup({
-    capabilites = capabilites,
+    capabilities = capabilities,
     on_attach = on_attach,
 })
 
 lspconfig["jsonls"].setup({
-    capabilites = capabilites,
+    capabilities = capabilities,
     on_attach = on_attach,
 })
 
@@ -67,6 +67,34 @@ lspconfig["sumneko_lua"].setup({
 })
 
 lspconfig["pylsp"].setup({
-    capabilites = capabilites,
+    capabilities = capabilities,
     on_attach = on_attach,
 })
+
+lspconfig["rust_analyzer"].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = {
+                    enable = true,
+                },
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+
+lspconfig["gdscript"].setup {
+    capabilities = capabilities,
+    on_attach = on_attach
+}

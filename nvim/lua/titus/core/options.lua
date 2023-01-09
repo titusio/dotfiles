@@ -1,5 +1,8 @@
 local opt = vim.opt
 
+-- set mouse
+opt.mouse = "a"
+
 -- line numbers
 opt.relativenumber = true
 opt.number = true

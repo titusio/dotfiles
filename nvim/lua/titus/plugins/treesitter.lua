@@ -22,6 +22,7 @@ treesitter.setup({
         "markdown",
         "python",
         "rust",
+        "gdscript"
     },
     auto_install = true,
 })
